@@ -1,0 +1,51 @@
+{% extends 'Common/base.html' %}
+
+{% block body %}
+
+
+
+<div class="container mt-5">
+    <h1 class="text-center mb-4">Job Feed</h1>
+
+    <!-- Search Bar -->
+    <div class="search-bar mb-4">
+
+        <form method="GET" action="{% url 'searchJob' %}">
+
+            <div class="input-group">
+                <input type="text" name="query" class="form-control" placeholder="Search for jobs..." required>
+                <button class="btn btn-primary" type="submit">Search</button>
+            </div>
+        </form>
+    </div>
+
+    <!-- Job Listing -->
+    <div class="job-list">
+        <h2>You searched for: "{{ query }}"</h2>
+
+        {% for job in jobs %}
+        <div class="card mb-3 shadow-sm">
+            <div class="card-body">
+                <h2 class="card-title">{{ job.job_title }}</h2>
+                <p class="card-text"><strong>Company:</strong> {{ job.company_name }}</p>
+                <p class="card-text"><strong>Location:</strong> {{ job.location }}</p>
+                <p class="card-text"><strong>Salary:</strong> ${{ job.salary|default:"Not specified" }}</p>
+                <p class="card-text"><strong>Employment Type:</strong> {{ job.employment_type|default:"Not specified" }}
+                </p>
+                <p class="card-text"><strong>Application Deadline:</strong> {{ job.application_deadline|date:"F j,
+                    Y"|default:"Not specified" }}</p>
+
+                <!-- Display the 'Apply Now' and 'View Job' buttons for jobseekers -->
+                {% if request.user.user_type == 'jobseeker' %}
+                <a href="{% url 'ApplyNow' job.job_title job.id %}" class="btn btn-primary">Apply Now</a>
+                <a href="{% url 'viewJob' job.id %}" class="btn btn-secondary">View Job</a>
+                {% endif %}
+            </div>
+        </div>
+        {% empty %}
+        <p class="text-center">No jobs available at the moment.</p>
+        {% endfor %}
+    </div>
+</div>
+
+{% endblock body %}

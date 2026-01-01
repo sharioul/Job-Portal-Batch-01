@@ -1,0 +1,31 @@
+{% extends 'Common/base.html' %}
+
+{% block title %}Sign In - Job Portal{% endblock %}
+
+{% block body %}
+<div class="container" style="display: flex; justify-content: center; align-items: center; min-height: 80vh;">
+  <div class="card" style="width: 100%; max-width: 400px;">
+    <h2 class="text-center mb-4">Sign In</h2>
+
+    <form action="{% url 'signinPage' %}" method="POST">
+      {% csrf_token %}
+
+      <div class="form-group">
+        <label for="username" class="form-label">Username</label>
+        <input type="text" id="username" name="username" class="form-control" required>
+      </div>
+
+      <div class="form-group">
+        <label for="password" class="form-label">Password</label>
+        <input type="password" id="password" name="password" class="form-control" required>
+      </div>
+
+      <button type="submit" class="btn btn-primary" style="width: 100%;">Sign In</button>
+
+      <div class="mt-4 text-center">
+        <p>Don't have an account? <a href="{% url 'signupPage' %}">Sign Up</a></p>
+      </div>
+    </form>
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,122 @@
+{% extends 'Common/base.html' %}
+
+{% block title %}User Profile | Job Portal{% endblock %}
+
+{% block body %}
+<div class="container mt-4">
+    <div class="card" style="max-width: 900px; margin: 0 auto;">
+
+        <div class="text-center mb-4" style="border-bottom: 2px solid var(--border-color); padding-bottom: 2rem;">
+            {% if Information.Profile_Pic %}
+            <img src="{{ Information.Profile_Pic.url }}" alt="Profile Picture"
+                style="width: 150px; height: 150px; border-radius: 50%; border: 4px solid var(--primary-color); object-fit: cover; margin-bottom: 1rem;">
+            {% else %}
+            <div
+                style="width: 150px; height: 150px; border-radius: 50%; background-color: var(--border-color); display: flex; align-items: center; justify-content: center; margin: 0 auto 1rem;">
+                <i class="fas fa-user" style="font-size: 4rem; color: var(--text-secondary);"></i>
+            </div>
+            {% endif %}
+
+            <h1 style="margin-bottom: 0.5rem;">{{ user.first_name }} {{ user.last_name }}</h1>
+            <h2 style="font-size: 1.25rem; color: var(--text-secondary); margin-bottom: 1rem;">
+                {{ Information.Designation|default:"Not Specified" }}</h2>
+
+            <p><i class="fas fa-envelope"></i> {{ user.email }} &bull; <i class="fas fa-phone"></i>
+                {{ Information.contact_No }}</p>
+
+            <div class="mt-4 flex justify-center gap-4" style="flex-wrap: wrap;">
+                <a href="{% url 'MySettingsPage' %}" class="btn btn-secondary">Settings</a>
+                <a href="{% url 'changePasswordPage' %}" class="btn btn-secondary">Change Password</a>
+
+                {% if request.user.user_type == 'recruiter' %}
+                <a href="{% url 'addJobPage' %}" class="btn btn-primary">Add Job</a>
+                <a href="{% url 'createdJob' %}" class="btn btn-primary">My Jobs</a>
+                {% endif %}
+
+                {% if request.user.user_type == 'jobseeker' %}
+                <a href="{% url 'appliedJob' %}" class="btn btn-primary">Applied Jobs</a>
+                {% endif %}
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-4">
+                <div
+                    style="background-color: var(--background-color); padding: 1.5rem; border-radius: var(--radius-md);">
+                    <h3
+                        style="border-bottom: 2px solid var(--primary-color); padding-bottom: 0.5rem; margin-bottom: 1rem;">
+                        Personal</h3>
+                    <p><strong>Age:</strong> {{ Information.Age }}</p>
+                    <p><strong>Gender:</strong> {{ Information.Gender }}</p>
+
+                    <h3
+                        style="border-bottom: 2px solid var(--primary-color); padding-bottom: 0.5rem; margin-bottom: 1rem; margin-top: 2rem;">
+                        Languages</h3>
+                    <ul style="list-style: disc; padding-left: 1.25rem;">
+                        {% for language in Languages %}
+                        <li>{{ language.Language_Name }} <span style="color: var(--text-secondary);">
+                                {{ language.Proficiency_Level }} </span></li>
+                        {% empty %}
+                        <li style="color: var(--text-secondary);">No languages added.</li>
+                        {% endfor %}
+                    </ul>
+
+                    <h3
+                        style="border-bottom: 2px solid var(--primary-color); padding-bottom: 0.5rem; margin-bottom: 1rem; margin-top: 2rem;">
+                        Skills</h3>
+                    <div style="display: flex; flex-wrap: wrap; gap: 0.5rem;">
+                        {% for skill in Skills %}
+                        <span
+                            style="background-color: var(--primary-color); color: white; padding: 0.25rem 0.75rem; border-radius: 50px; font-size: 0.875rem;">
+                            {{ skill.Skill_Name }}</span>
+                        {% empty %}
+                        <p style="color: var(--text-secondary);">No skills added.</p>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-8">
+                <div style="padding: 1.5rem;">
+                    <h3 style="color: var(--primary-color);">Career Summary</h3>
+                    <p style="margin-bottom: 2rem; white-space: pre-line;">{{ Information.Carrer_Summary }}</p>
+
+                    <h3 style="color: var(--primary-color);">Experience</h3>
+                    {% for exp in Experiences %}
+                    <div style="margin-bottom: 1.5rem; border-left: 3px solid var(--border-color); padding-left: 1rem;">
+                        <h4>{{ exp.job_title }}</h4>
+                        <p style="color: var(--text-secondary); font-weight: 500;">{{ exp.company_name }} | {{
+                            exp.start_date }} - {{ exp.end_date }}</p>
+                        <p class="mt-2">{{ exp.description }}</p>
+                    </div>
+                    {% empty %}
+                    <p style="color: var(--text-secondary);">No experience added.</p>
+                    {% endfor %}
+
+                    <h3 style="color: var(--primary-color); margin-top: 2rem;">Education</h3>
+                    {% for edu in Education %}
+                    <div style="margin-bottom: 1.5rem; border-left: 3px solid var(--border-color); padding-left: 1rem;">
+                        <h4>{{ edu.institution_name }}</h4>
+                        <p style="color: var(--text-secondary); font-weight: 500;">{{ edu.degree }} in {{
+                            edu.field_of_study }}</p>
+                        <p>{{ edu.start_date }} - {{ edu.end_date }}</p>
+                    </div>
+                    {% empty %}
+                    <p style="color: var(--text-secondary);">No education added.</p>
+                    {% endfor %}
+
+                    <h3 style="color: var(--primary-color); margin-top: 2rem;">Interests</h3>
+                    <p>
+                        {% for interest in Interests %}
+                        {{ interest.name }}{% if not forloop.last %}, {% endif %}
+                        {% empty %}
+                        No interests added.
+                        {% endfor %}
+                    </p>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+{% endblock %}

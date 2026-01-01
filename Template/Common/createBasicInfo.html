@@ -1,0 +1,119 @@
+{% extends 'Common/base.html' %}
+
+{% block extra_css %}
+<style>
+    .form-container {
+        background: white;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        max-width: 500px;
+        margin: auto;
+    }
+
+    .form-container h1 {
+        text-align: center;
+    }
+
+    .form-group {
+        margin-bottom: 15px;
+    }
+
+    .form-group label {
+        display: block;
+        margin-bottom: 5px;
+    }
+
+    .form-group input[type="text"],
+    .form-group input[type="number"],
+    .form-group select,
+    .form-group textarea {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+    }
+
+    .form-container button {
+        width: 100%;
+        padding: 10px;
+        background-color: #007BFF;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+    }
+
+    .form-container button:hover {
+        background-color: #0056b3;
+    }
+</style>
+{% endblock %}
+
+{% block body %}
+<div class="form-container mt-5">
+    <h1>Create Basic Info</h1>
+
+    {% include 'Includes/message.html' %}
+
+    <form action="" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+
+        <div class="form-group">
+            <label for="username">User Name:</label>
+            <input readonly type="text" id="username" value="{{request.user.username}}" name="username" required>
+        </div>
+
+        <div class="form-group">
+            <label for="first_name">First Name:</label>
+            <input type="text" id="first_name" value="{{request.user.first_name}}" name="first_name" required>
+        </div>
+
+
+        <div class="form-group">
+            <label for="second_name">Last Name:</label>
+            <input type="text" id="second_name" value="{{request.user.last_name}}" name="second_name" required>
+        </div>
+
+        <div class="form-group">
+            <label for="contact_No">Contact Number:</label>
+            <input type="text" id="contact_No" name="contact_No" value="{{ info.contact_No|default_if_none:'' }}"
+                required>
+        </div>
+
+        <div class="form-group">
+            <label for="Designation">Designation:</label>
+            <input type="text" id="Designation" name="Designation" value="{{ info.Designation|default_if_none:'' }}"
+                required>
+        </div>
+
+        <div class="form-group">
+            <label for="Profile_Pic">Profile Picture:</label>
+            <input type="file" id="Profile_Pic" name="Profile_Pic" accept="image/*">
+        </div>
+
+        <div class="form-group">
+            <label for="Carrer_Summary">Career Summary:</label>
+            <textarea id="Carrer_Summary" name="Carrer_Summary" rows="4"
+                required>{{ info.Carrer_Summary|default_if_none:'' }}</textarea>
+        </div>
+
+        <div class="form-group">
+            <label for="Age">Age:</label>
+            <input type="number" id="Age" name="Age" value="{{ info.Age|default_if_none:'' }}" required>
+        </div>
+
+        <div class="form-group">
+            <label for="Gender">Gender:</label>
+            <select id="Gender" name="Gender" required>
+                <option value="">Select</option>
+                <option value="male" {% if info.Gender == 'male' %}selected{% endif %}>Male</option>
+                <option value="female" {% if info.Gender == 'female' %}selected{% endif %}>Female</option>
+                <option value="other" {% if info.Gender == 'other' %}selected{% endif %}>Other</option>
+            </select>
+        </div>
+
+        <button type="submit">Submit</button>
+    </form>
+</div>
+{% endblock body %}

@@ -1,0 +1,85 @@
+{% extends 'Common/base.html' %}
+
+{% block extra_css %}
+<style>
+    .form-container {
+        background: white;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        max-width: 500px;
+        margin: auto;
+    }
+
+    .form-container h1 {
+        text-align: center;
+    }
+
+    .form-group {
+        margin-bottom: 15px;
+    }
+
+    .form-group label {
+        display: block;
+        margin-bottom: 5px;
+    }
+
+    .form-group input[type="text"],
+    .form-group input[type="number"],
+    .form-group select,
+    .form-group textarea {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+    }
+
+    .form-container button {
+        width: 100%;
+        padding: 10px;
+        background-color: #007BFF;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+    }
+
+    .form-container button:hover {
+        background-color: #0056b3;
+    }
+</style>
+{% endblock %}
+
+{% block body %}
+<div class="form-container mt-5">
+    <h1>Add Language</h1>
+
+    {% include 'Includes/message.html' %}
+
+    <form action="" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+
+        <div class="form-group">
+            <label for="Language_Id">Select Language:</label>
+            <select id="Language_Id" name="Language_Id" required>
+                <option value="">Select Language</option>
+                {% for i in all_lan %}
+                <option value="{{i.id}}">{{i.Language_Name}}</option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="Proficiency_Level">Proficiency Level:</label>
+            <select id="Proficiency_Level" name="Proficiency_Level" required>
+                <option value="">Select Proficiency Level</option>
+                <option value="beginner">Beginner</option>
+                <option value="intermediate">Intermediate</option>
+                <option value="expert">Expert</option>
+            </select>
+        </div>
+
+        <button type="submit">Submit</button>
+    </form>
+</div>
+{% endblock body %}

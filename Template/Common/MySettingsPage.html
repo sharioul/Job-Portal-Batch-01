@@ -1,0 +1,139 @@
+{% extends 'Common/base.html' %}
+
+{% block title %}My Profile | Job Portal{% endblock %}
+
+{% block body %}
+<div class="container mt-4">
+    <div class="card">
+        <h1 class="text-center mb-4">My Profile Settings</h1>
+
+        <div class="flex justify-between items-center mb-4" style="flex-wrap: wrap; gap: 1rem;">
+            <a href="{% url 'profile_view' %}" class="btn btn-secondary">View Public Profile</a>
+            <!-- Add buttons to add new items -->
+            <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
+                <a href="{% url 'addSkillPage' %}" class="btn btn-primary btn-sm">Add Skill</a>
+                <a href="{% url 'addLanguage' %}" class="btn btn-primary btn-sm">Add Language</a>
+                <a href="{% url 'add_education' %}" class="btn btn-primary btn-sm">Add Education</a>
+                <a href="{% url 'add_experience' %}" class="btn btn-primary btn-sm">Add Experience</a>
+                <a href="{% url 'add_interest' %}" class="btn btn-primary btn-sm">Add Interest</a>
+                <a href="{% url 'createBasicInfo' %}" class="btn btn-primary btn-sm">Edit Basic Info</a>
+            </div>
+        </div>
+
+        <h3>Languages</h3>
+        <div style="overflow-x: auto;">
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th>Language</th>
+                        <th>Proficiency</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for i in myLanguage %}
+                    <tr>
+                        <td>{{ i.Language_Name }}</td>
+                        <td>{{ i.Proficiency_Level }}</td>
+                        <td><a href="{% url 'delete_language' i.id %}" class="btn btn-danger"
+                                style="padding: 0.25rem 0.5rem; font-size: 0.875rem;">Delete</a></td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="3" class="text-center">No languages added.</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <h3 class="mt-4">Skills</h3>
+        <div style="overflow-x: auto;">
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th>Skill</th>
+                        <th>Level</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for i in mySkill %}
+                    <tr>
+                        <td>{{ i.Skill_Name }}</td>
+                        <td>{{ i.Skill_Level }}</td>
+                        <td><a href="{% url 'delete_skill' i.id %}" class="btn btn-danger"
+                                style="padding: 0.25rem 0.5rem; font-size: 0.875rem;">Delete</a></td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="3" class="text-center">No skills added.</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <h3 class="mt-4">Education</h3>
+        <div style="overflow-x: auto;">
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th>Institute</th>
+                        <th>Degree</th>
+                        <th>Field</th>
+                        <th>Dates</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for e in myEducation %}
+                    <tr>
+                        <td>{{ e.institution_name }}</td>
+                        <td>{{ e.degree }}</td>
+                        <td>{{ e.field_of_study }}</td>
+                        <td>{{ e.start_date|date:"Y" }} - {{ e.end_date|date:"Y" }}</td>
+                        <td><a href="{% url 'delete_education' e.id %}" class="btn btn-danger"
+                                style="padding: 0.25rem 0.5rem; font-size: 0.875rem;">Delete</a></td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="5" class="text-center">No education added.</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <h3 class="mt-4">Experience</h3>
+        <div style="overflow-x: auto;">
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th>Job Title</th>
+                        <th>Company</th>
+                        <th>Dates</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for e in myExperience %}
+                    <tr>
+                        <td>{{ e.job_title }}</td>
+                        <td>{{ e.company_name }}</td>
+                        <td>{{ e.start_date|date:"Y" }} - {{ e.end_date|date:"Y" }}</td>
+                        <td><a href="{% url 'delete_experience' e.id %}" class="btn btn-danger"
+                                style="padding: 0.25rem 0.5rem; font-size: 0.875rem;">Delete</a></td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="4" class="text-center">No experience added.</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+</div>
+{% endblock %}

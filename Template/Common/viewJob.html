@@ -1,0 +1,60 @@
+{% extends 'Common/base.html' %}
+
+{% block title %}{{ job.job_title }} | Job Portal{% endblock %}
+
+{% block body %}
+<div class="container mt-4">
+    <div class="card">
+        <div class="mb-4 text-center">
+            <h1>{{ job.job_title }}</h1>
+            <p style="color: var(--text-secondary); font-size: 1.1rem;">{{ job.company_name }} &bull; {{ job.location }}
+            </p>
+        </div>
+
+        <div class="row">
+            <!-- Job Details Section -->
+            <div class="col-md-8">
+                <h3>Job Description</h3>
+                <p style="white-space: pre-line; margin-bottom: 2rem;">{{ job.description }}</p>
+
+                <h3>Skills Required</h3>
+                <p>{{ job.skills_required|default:"Not specified" }}</p>
+
+                <h3 class="mt-4">Job Details</h3>
+                <ul style="list-style: disc; padding-left: 20px; color: var(--text-secondary);">
+                    <li><strong>Employment Type:</strong> {{ job.employment_type|title }}</li>
+                    <li><strong>Salary:</strong> ${{ job.salary|default:"Not disclosed" }}</li>
+                    <li><strong>Application Deadline:</strong>
+                        {{ job.application_deadline|date:"F j, Y"|default:"Not specified" }}</li>
+                </ul>
+            </div>
+
+            <!-- Contact & Apply Section -->
+            <div class="col-md-4">
+                <div class="card" style="background-color: var(--background-color); border: none;">
+                    <h3>Company Info</h3>
+                    <p><strong>{{ job.company_name }}</strong></p>
+                    <p><i class="fas fa-map-marker-alt"></i> {{ job.location }}</p>
+
+                    <h3 class="mt-4">Ready to Apply?</h3>
+                    {% if request.user.user_type == 'jobseeker' %}
+                    <a href="{% url 'ApplyNow' job.job_title job.id %}" class="btn btn-success w-full"
+                        style="background-color: var(--success-color);">Apply Now</a>
+                    {% else %}
+                    <p class="text-secondary">Login as a Job Seeker to apply.</p>
+                    {% endif %}
+
+                    <div class="mt-4">
+                        <small style="color: var(--text-secondary);">
+                            Job Posted On: {{ job.posted_date|date:"F j, Y" }}</small>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="text-center mt-4" style="border-top: 1px solid var(--border-color); padding-top: 1rem;">
+            <a href="{% url 'JobFeed' %}" class="btn btn-secondary">Back to Job Feed</a>
+        </div>
+    </div>
+</div>
+{% endblock %}

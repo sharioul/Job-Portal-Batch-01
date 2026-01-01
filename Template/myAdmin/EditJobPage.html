@@ -1,0 +1,73 @@
+{% extends 'Common/base.html' %}
+
+{% block title %}Edit Job | Job Portal{% endblock %}
+
+{% block body %}
+<div class="container mt-4">
+    <div class="card" style="max-width: 800px; margin: 0 auto;">
+        <h1 class="text-center mb-4">Edit Job Listing</h1>
+
+        <form method="POST">
+            {% csrf_token %}
+
+            <input type="hidden" name="job_id" value="{{ Job.id }}">
+
+            <div class="form-group">
+                <label for="jobTitle" class="form-label">Job Title</label>
+                <input type="text" class="form-control" id="jobTitle" name="job_title" value="{{ Job.job_title }}"
+                    required>
+            </div>
+
+            <div class="form-group">
+                <label for="companyName" class="form-label">Company Name</label>
+                <input type="text" class="form-control" id="companyName" name="company_name"
+                    value="{{ Job.company_name }}" required>
+            </div>
+
+            <div class="form-group">
+                <label for="location" class="form-label">Location</label>
+                <input type="text" class="form-control" id="location" name="location" value="{{ Job.location }}"
+                    required>
+            </div>
+
+            <div class="form-group">
+                <label for="employmentType" class="form-label">Employment Type</label>
+                <select class="form-control" id="employmentType" name="employment_type" required>
+                    <option value="full_time" {% if Job.employment_type == 'full_time' %}selected{% endif %}>Full Time
+                    </option>
+                    <option value="part_time" {% if Job.employment_type == 'part_time' %}selected{% endif %}>Part Time
+                    </option>
+                    <option value="contract" {% if Job.employment_type == 'contract' %}selected{% endif %}>Contract
+                    </option>
+                    <option value="internship" {% if Job.employment_type == 'internship' %}selected{% endif %}>Internship
+                    </option>
+                    <option value="temporary" {% if Job.employment_type == 'temporary' %}selected{% endif %}>Temporary
+                    </option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="salary" class="form-label">Salary ($)</label>
+                <input type="number" class="form-control" id="salary" name="salary" value="{{ Job.salary }}" min="0">
+            </div>
+
+            <div class="form-group">
+                <label for="applicationDeadline" class="form-label">Application Deadline</label>
+                <input type="date" class="form-control" id="applicationDeadline" name="application_deadline"
+                    value="{{ Job.application_deadline|date:'Y-m-d' }}">
+            </div>
+
+            <div class="form-group">
+                <label for="description" class="form-label">Job Description</label>
+                <textarea class="form-control" id="description" name="description" rows="6"
+                    required>{{ Job.description }}</textarea>
+            </div>
+
+            <div class="flex gap-4">
+                <button type="submit" class="btn btn-primary w-full">Update Job</button>
+                <a href="{% url 'createdJob' %}" class="btn btn-secondary w-full">Cancel</a>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

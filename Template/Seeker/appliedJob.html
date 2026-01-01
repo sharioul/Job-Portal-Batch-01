@@ -1,0 +1,77 @@
+{% extends 'Common/base.html' %}
+
+{% block title %}Applied Jobs | Job Portal{% endblock %}
+
+{% block body %}
+<div class="container mt-4">
+    <div class="card">
+        <h1 class="text-center mb-4">Jobs You've Applied For</h1>
+
+        {% if Job %}
+        <div style="overflow-x: auto;">
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th>Job Title</th>
+                        <th>Company</th>
+                        <th>Location</th>
+                        <th>Salary</th>
+                        <th>Type</th>
+                        <th>Status</th>
+                        <th>Resume</th>
+                        <th colspan="2">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for job_application in Job %}
+                    <tr>
+                        <td>
+                            <strong>{{ job_application.job.job_title }}</strong>
+                        </td>
+                        <td>{{ job_application.job.company_name }}</td>
+                        <td>{{ job_application.job.location }}</td>
+                        <td>${{ job_application.job.salary|default:"N/A" }}</td>
+                        <td>{{ job_application.job.employment_type|title }}</td>
+                        <td>
+                            {% if job_application.status == 'pending' %}
+                            <span
+                                style="background-color: #fef3c7; color: #92400e; padding: 2px 8px; border-radius: 12px; font-size: 0.8em;">Pending</span>
+                            {% elif job_application.status == 'interview_scheduled' %}
+                            <span
+                                style="background-color: #dcfce7; color: #166534; padding: 2px 8px; border-radius: 12px; font-size: 0.8em;">Interview</span>
+                            {% elif job_application.status == 'rejected' %}
+                            <span
+                                style="background-color: #fee2e2; color: #991b1b; padding: 2px 8px; border-radius: 12px; font-size: 0.8em;">Rejected</span>
+                            {% elif job_application.status == 'hired' %}
+                            <span
+                                style="background-color: #dbeafe; color: #1e40af; padding: 2px 8px; border-radius: 12px; font-size: 0.8em;">Hired</span>
+                            {% endif %}
+                        </td>
+                        <td>
+                            <a href="{{ job_application.Resume.url }}" target="_blank" class="btn btn-secondary"
+                                style="padding: 0.25rem 0.5rem; font-size: 0.875rem;">Download</a>
+                        </td>
+                        <td>
+                            <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
+                                <a href="{% url 'viewJob' job_application.job.id %}" class="btn btn-primary"
+                                    style="padding: 0.25rem 0.5rem; font-size: 0.875rem;">View Job</a>
+                                <a href="{% url 'viewMessage' job_application.id %}" class="btn btn-secondary"
+                                    style="padding: 0.25rem 0.5rem; font-size: 0.875rem;">Chat</a>
+                            </div>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% else %}
+        <div class="alert alert-warning text-center">
+            You haven't applied for any jobs yet.
+            <div class="mt-4">
+                <a href="{% url 'JobFeed' %}" class="btn btn-primary">Browse Jobs</a>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

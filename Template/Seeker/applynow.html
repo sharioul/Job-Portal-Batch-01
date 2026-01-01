@@ -1,0 +1,55 @@
+{% extends 'Common/base.html' %}
+
+{% block title %}Apply for {{ specific_job.job_title }} | Job Portal{% endblock %}
+
+{% block body %}
+<div class="container mt-4">
+    <div class="card" style="max-width: 800px; margin: 0 auto;">
+
+        <h1 class="text-center mb-4">Apply for {{ specific_job.job_title }}</h1>
+
+        {% if already_exists %}
+        <div class="alert alert-warning text-center">
+            <h2>Already Applied</h2>
+            <p>You have already submitted an application for this job.</p>
+            <a href="{% url 'JobFeed' %}" class="btn btn-primary mt-4">Back to Jobs</a>
+        </div>
+        {% else %}
+        <form method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="fullName" class="form-label">Full Name</label>
+                <input type="text" class="form-control" id="fullName" name="Full_Name" required>
+            </div>
+            <div class="form-group">
+                <label for="workExperience" class="form-label">Work Experience</label>
+                <input type="text" class="form-control" id="workExperience" name="Work_Experience" required>
+            </div>
+            <div class="form-group">
+                <label for="skills" class="form-label">Skills</label>
+                <input type="text" class="form-control" id="skills" name="Skills" required>
+            </div>
+            <div class="form-group">
+                <label for="linkedinUrl" class="form-label">LinkedIn URL</label>
+                <input type="url" class="form-control" id="linkedinUrl" name="Linkedin_URL">
+            </div>
+            <div class="form-group">
+                <label for="expectedSalary" class="form-label">Expected Salary</label>
+                <input type="number" class="form-control" id="expectedSalary" name="Expected_Salary" min="0">
+            </div>
+            <div class="form-group">
+                <label for="resume" class="form-label">Resume (PDF, DOC, DOCX)</label>
+                <input type="file" class="form-control" id="resume" name="Resume" accept=".pdf,.doc,.docx" required
+                    style="padding: 10px;">
+            </div>
+            <div class="form-group">
+                <label for="cover" class="form-label">Cover Letter</label>
+                <textarea class="form-control" id="cover" name="Cover" rows="4"></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary w-full">Submit Application</button>
+        </form>
+        {% endif %}
+
+    </div>
+</div>
+{% endblock %}
