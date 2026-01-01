@@ -156,3 +156,4 @@ python manage.py flush
 - **Static Files**: If images or styles are missing, verify the `static` and `media` directories are correctly configured in `settings.py`.
 # Job-Portal-Batch-01
 # Job-Portal-Batch-01
+# Job-Portal-Batch-01
