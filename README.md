@@ -155,3 +155,4 @@ python manage.py flush
 - **`TemplateSyntaxError`**: Ensure you have pulled the latest code updates, as recent fixes for template syntax have been applied.
 - **Static Files**: If images or styles are missing, verify the `static` and `media` directories are correctly configured in `settings.py`.
 # Job-Portal-Batch-01
+# Job-Portal-Batch-01
