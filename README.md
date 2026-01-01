@@ -32,7 +32,7 @@ Follow these steps to set up the project locally on your machine.
 Open your terminal or command prompt and run:
 ```bash
 git clone <repository-url>
-cd "rajeshdiu Job-Portal-Project-B4 main myProject"
+cd "Job-Portal-Project-B1"
 ```
 
 ### 2. Create a Virtual Environment
